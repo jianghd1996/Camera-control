@@ -52,6 +52,10 @@ We use [LCR-Net](http://lear.inrialpes.fr/src/LCR-Net/) for 2D skeleton detectio
 
 
 
+Pretrained model with 10 degree noise
+
+[[google drive](https://drive.google.com/file/d/1PpAKJk8OYqP1m_oMr4DhfHDZiGrN7MQV/view?usp=sharing)]  
+
 
 
 #### Gating Prediction Model
