@@ -28,7 +28,7 @@ gating prediction
 
 
 
-## Prerequisites ##
+## Prerequisites
 
 - Linux
 - NVIDIA GPU + CUDA CuDNN
@@ -62,9 +62,10 @@ Pretrained model with 10 degree noise
 
 
 
-#### Gating Prediction Model
 
----
+
+## Gating Prediction Model
+
 
 **Dataset**
 
@@ -77,6 +78,8 @@ Pretrained model with 10 degree noise
 Pretrained model with number of expert = 9 
 
 [[google drive](https://drive.google.com/file/d/1-ulS9hXV1T0FjlWZAo2uAbYe8V__Lntq/view?usp=sharing)]     [[baiduyun](https://pan.baidu.com/s/1bgyuupD0-CaeEH5AE_I6aQ)] (password: 2vp3)
+
+
 
 
 
@@ -114,17 +117,15 @@ Please refer to folder Movie_Analysis for detail usage.
 
 
 
-**Acknowledgments**
+## Acknowledgments
 
----
 
 This work was supported in part by the National Key R&D Program of China (2018YFB1403900, 2019YFF0302902).
 
 
 
-**Citation**
+## Citation
 
----
 
 Please cite our work if you find it useful:
 
