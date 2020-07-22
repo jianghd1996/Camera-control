@@ -26,21 +26,25 @@ gating prediction
 
 
 
-## Getting started
 
 
-**Install Requirements**
+## Prerequisites ##
 
-pytorch 1.2.0
-tensorboadX
+- Linux
+- NVIDIA GPU + CUDA CuDNN
+- Python 3.6
 
 
 
-#### Estimation Model
+## Dependencies
 
----
+```bash
+pip install -r requirements.txt
+```
 
-We use [LCR-Net](http://lear.inrialpes.fr/src/LCR-Net/) for 2D skeleton detection.
+
+
+ ## Cinematic Estimation
 
 
 
@@ -76,7 +80,37 @@ Pretrained model with number of expert = 9
 
 
 
-**Test Scene**
+
+
+## Testing
+
+In test time, we extract camera behaviors in a reference real film clips and retarget it to a new 3D animation. The process has 3 steps. 
+
+
+
+**Step 1** is the cinematic feature estimation. 
+
+According to our paper, this part has three steps :
+
+1. Use [LCR-Net](http://lear.inrialpes.fr/src/LCR-Net/) to estimate 2D skeletons from videos
+2. Pose association, smoothing and filling missing joints
+3. Estimate cinematic features with a neural network
+
+
+
+**Step 2** is mapping the film clips to a latent camera behaviors space.
+
+Use the cinematic feature from step 1, input them to the pretrained Gating network to get a sequence of camera behaviors vector.
+
+
+
+**Step 3** is apply the extracted behaviors to a new 3D animation.
+
+Use the vector in step 2 to control the weights of Prediction network in every step, input the scene content to the prediction network to get the camera pose of next frame.
+
+
+
+Please refer to folder Movie_Analysis for detail usage.
 
 
 
@@ -84,11 +118,23 @@ Pretrained model with number of expert = 9
 
 ---
 
-
+This work was supported in part by the National Key R&D Program of China (2018YFB1403900, 2019YFF0302902).
 
 
 
 **Citation**
 
 ---
+
+Please cite our work if you find it useful:
+
+```
+@article{jiang2020example,
+  title={Example-driven Virtual Cinematography by Learning Camera Behaviors},
+  author={Hongda, Jiang and Bin, Wang and Xi, Wang and Marc, Christie and Baoquan Chen},
+  journal={ACM Transactions on Graphics (TOG)},
+  year={2020},
+  publisher={ACM New York, NY, USA}
+}
+```
 
