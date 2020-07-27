@@ -6,7 +6,7 @@ This repo provides PyTorch implementation of our paper :
 
 SIGGRAPH 2020
 
-![Overview]()
+![Overview](https://github.com/jianghd1996/Camera-control/blob/master/SIGGRAPH_2020/Figure/teaser.png)
 
 The homepage of the project can be found [here](https://jianghd1996.github.io/publication/sig_2020/). The paper can be found [here](https://jianghd1996.github.io/publication/sig_2020/SIG_2020.pdf).
 
