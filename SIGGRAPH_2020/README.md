@@ -64,7 +64,7 @@ We define the cinematic feature space as correlation between characters and came
 
 For character features, we use character distance, relative head orientations, relative shoulder orientations and main character information. For camera features, we use the toric camera space.
 
-[image feature.png]
+![Overview](https://github.com/jianghd1996/Camera-control/blob/master/SIGGRAPH_2020/Figure/feature.png)
 
 Use data_processing file to extract the character 2D screen joint positions and cinematic features.
 
