@@ -18,14 +18,6 @@ The homepage of the project can be found [here](https://jianghd1996.github.io/pu
 
 - [ ] Usage
 
-estimation
-
-- [ ] dataset
-
-gating prediction
-
-- [ ] dataset
-
 - [ ] test scene
 
 
@@ -101,6 +93,16 @@ Pretrained MoE model (number of expert = 9)
 [[google drive](https://drive.google.com/file/d/1-ulS9hXV1T0FjlWZAo2uAbYe8V__Lntq/view?usp=sharing)]     [[baiduyun](https://pan.baidu.com/s/1bgyuupD0-CaeEH5AE_I6aQ)] (password: 2vp3)
 
 
+
+## Dataset Download
+
+We prepare pre-processed  data for training :
+
+Estimation dataset [[training](https://drive.google.com/drive/folders/1WSKigQQkuyav_iZdl6ujenNQDqPZiNq7?usp=sharing)] [[testing](https://drive.google.com/drive/folders/1KyxQniLAyhBO1lYdv3dr8ok6OR0BdnU9?usp=sharing)]
+
+Prediction dataset [[training](https://drive.google.com/drive/folders/1J_mHUEZxou8vymyeEIqbFQL4DWWgEq5Q?usp=sharing)] [[testing](https://drive.google.com/drive/folders/1q2A92U0OzMQkJOEZiAWMZvz7yjfWsmy4?usp=sharing)]
+
+**You can also generate your own dataset with the project in folder data_generation**
 
 
 
