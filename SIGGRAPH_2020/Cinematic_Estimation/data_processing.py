@@ -1,8 +1,10 @@
 import numpy as np
 import os
-import math as mt
 from tqdm import tqdm
 
+'''
+This code is used to do data processing for exported 3D animation information.
+'''
 
 def extract_txt(data_path):
     if os.path.exists(os.path.join(data_path, "toric_data.npy")):
@@ -189,10 +191,6 @@ if __name__ == "__main__":
 		"../estimation_data/fov45_parallel/",
 		"../estimation_data/fov45_complement/",
 		"../estimation_data/fov45_side/",
-        # "../generality/",
-        # "../generality_rotation/",
-        # "../generality_rotation_2/",
-        # "../generality_test/"
         ]
 
     for v in path:

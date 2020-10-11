@@ -6,7 +6,7 @@ import torch.optim
 import numpy as np
 from tqdm import tqdm
 from dataset import estimationdataset
-from Net import combined_CNN
+from net import combined_CNN
 from collections import OrderedDict
 from tensorboardX import SummaryWriter
 
@@ -39,7 +39,7 @@ def cycle(iterable):
         for x in iterable:
             yield x
 
-class Toric_estimation_model(object):
+class agent(object):
     def __init__(self,
                  train_data_path,
                  val_data_path,

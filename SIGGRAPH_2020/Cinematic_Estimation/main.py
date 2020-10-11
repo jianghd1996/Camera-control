@@ -1,5 +1,5 @@
 import os
-from Toric_estimation_model import Toric_estimation_model
+from agent import agent
 
 class Config(object):
 	def __init__(self):
@@ -34,7 +34,7 @@ class Config(object):
 
 def main():
 	
-	estimation_model = Toric_estimation_model(
+	estimation_model = agent(
 		train_data_path = [
 			"data/fov45_10degree/",
 			"data/new_data/",
