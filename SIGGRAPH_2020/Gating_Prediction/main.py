@@ -1,8 +1,12 @@
-import numpy as np
 import os
-from Toric_prediction_model import Toric_prediction_model
+from agent import agent
 
 class Config(object):
+	'''
+	Config for training
+	Learning config : optimizer, dataloader
+	Model config : gating config, prediction config, model save path, log save path
+	'''
 	def __init__(self):
 		self.learning_config()
 		self.model_config()
@@ -39,7 +43,7 @@ class Config(object):
 			os.mkdir(self.model_path)
 
 def main():
-	prediction_model = Toric_prediction_model(
+	prediction_model = agent(
 		train_path=["../prediction_feature/"],
 		eval_path=["../prediction_evaluation_feature/"],
 		track_style=['direct_track', "relative_track", "sin_cos_track", "side_track"],

@@ -1,41 +1,7 @@
 import torch
 import torch.nn.parallel
-import torch.optim
 from torch import nn
 import math as mt
-
-class FC(nn.Module):
-    def __init__(self, input_length, output_length, max_style_num):
-        super(FC, self).__init__()
-        
-        self.fc1 = nn.Sequential(
-            nn.Linear(input_length, 512),
-            nn.LeakyReLU(negative_slope=0.2),
-            )
-
-        self.fc2 = nn.Sequential(
-            nn.Linear(512, 128),
-            nn.LeakyReLU(negative_slope=0.2),
-            )
-
-        self.residual = nn.ModuleList([])
-        for i in range(max_style_num):
-            self.residual.append(nn.Sequential(
-                nn.Linear(512, 128),
-                nn.LeakyReLU(negative_slope=0.2),
-            ))
-
-        self.fc3 = nn.Sequential(
-            nn.Linear(128, output_length),
-            nn.LeakyReLU(negative_slope=0.2),
-            )
-
-    def forward(self, input_data, style_num):
-        Mid = self.fc1(input_data)
-
-        # if (style_num == 0):
-        #     return self.fc3(self.fc2(Mid))
-        return self.fc3(self.fc2(Mid)+self.residual[style_num](Mid))
 
 class Gating(nn.Module):
     def __init__(self,
@@ -77,7 +43,11 @@ class Gating(nn.Module):
         return self.fc(output)
 
 class linear(nn.Module):
-
+    '''
+    Modified linear layer in pytorch
+    Each linear layer have num_experts weights
+    Blend the weight with coefficients first and then multiply the matrix
+    '''
     def __init__(self, in_features, out_features, num_experts, bias=True):
         super(linear, self).__init__()
         self.in_features = in_features

@@ -5,25 +5,22 @@ import torch.nn.parallel
 import torch.backends.cudnn as cudnn
 import torch.optim
 import numpy as np
-import matplotlib.pyplot as plt
-import Utils as utils
 from tqdm import tqdm
 from torch import nn
-from torch.nn.utils import clip_grad_norm
-from dataset_skelet import skeletdataset
-from mpl_toolkits.mplot3d import Axes3D
-import Net
-from Net import Prediction
+from dataset import skeletdataset
+from net import Prediction
 import os
-import random
 from collections import OrderedDict
-from torch.nn.utils.rnn import pad_sequence, pack_padded_sequence, pad_packed_sequence
 from tensorboardX import SummaryWriter
 
 cudnn.benchmark = True
 
-
 class weight_mse(nn.Module):
+	'''
+	We predict 30 frames to reduce the accumulated error
+	and we allocate the 1st frame 10 times error weight since
+	in test it will only use the 1st frame
+	'''
 	def __init__(self):
 		super(weight_mse, self).__init__()
 
@@ -33,8 +30,10 @@ class weight_mse(nn.Module):
 		z = torch.FloatTensor(np.tile(z, (batch_size, 1))).cuda()
 		return torch.mean(z * torch.pow((x - y), 2))
 
-
 class TrainClock(object):
+	'''
+	Module to record the training progress
+	'''
 	def __init__(self):
 		self.epoch = 0
 		self.step = 0
@@ -60,8 +59,11 @@ def cycle(iterable):
 		for x in iterable:
 			yield x
 
-class Toric_prediction_model(object):
+class agent(object):
 	def __init__(self, train_path, eval_path, track_style, track_shot, config):
+		'''
+		Initialize agent, create clock, model, load dataset
+		'''
 		self.train_path   = train_path
 		self.eval_path	  = eval_path
 		self.track_style = track_style
@@ -76,6 +78,9 @@ class Toric_prediction_model(object):
 
 
 	def build_model(self):
+		'''
+		Initialize model, optimizer, schedule, criterion
+		'''
 		print("building model")
 
 		self.model = Prediction(num_experts= self.config.num_experts,
@@ -97,6 +102,9 @@ class Toric_prediction_model(object):
 		self.model = torch.nn.DataParallel(self.model).cuda()
 
 	def load_data(self):
+		'''
+		Load data and create pytorch dataloader
+		'''
 		print("loading data")
 		category = []
 		data = []
@@ -141,7 +149,6 @@ class Toric_prediction_model(object):
 		self.val_loader = cycle(self.val_loader)
 
 	def learn(self):
-
 		for e in range(self.clock.epoch, self.config.epoch):
 			pbar = tqdm(self.train_loader)
 			self.model.train()

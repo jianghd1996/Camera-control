@@ -1,10 +1,6 @@
 import torch.utils.data as data
-from PIL import Image
-import os
-import os.path
 import numpy as np
 import random
-import torch
 
 class skeletdataset(data.Dataset):
 	def __init__(self, category, data, input_seq_length, output_seq_length, samples, add_noise=False):
@@ -20,6 +16,9 @@ class skeletdataset(data.Dataset):
 		self.add_noise = add_noise
 
 	def augment(self, data):
+		'''
+		Add noise to input camera to make training more stable.
+		'''
 		Range = [0.1, 0.1, 0.1, 0.5, 0.1] * 60
 
 		R = np.random.uniform(size=300)-0.5
@@ -28,6 +27,11 @@ class skeletdataset(data.Dataset):
 		return data
 
 	def blur(self, data):
+		'''
+		We use 30 frames history camera as input but for the beginning
+		frame, the history camera uses constant initialized camera.
+		This augmentation is used for this beginning situation.
+		'''
 		ed = random.randint(5, 55)
 
 		data[:ed*9] = np.repeat(data[ed*9:(ed+1)*9], ed)
@@ -37,11 +41,14 @@ class skeletdataset(data.Dataset):
 		return data
 
 	def __getitem__(self, index):
+		'''
+		Input : pre_character, future character, pre camera
+		Ouput : future camera
+		'''
 		idx = index // self.total
 		data = self.data[idx]
 		index = index % self.total % len(self.data[idx])
 
-		# pre_character, future character, pre camera
 		data = data[index]
 		character = data[:, :9]
 		camera = data[:, -5:]
