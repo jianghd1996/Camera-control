@@ -54,9 +54,9 @@ def skeleton_processing(skeleton, height, width):
             d = v['LCRKeypoint_2d']
             for i in range(len(d)):
                 if i % 2 == 0:
-                    d[i] /= height
-                else:
                     d[i] /= width
+                else:
+                    d[i] /= height
             f_s.append(np.array(d))
             s.append(0)
         skelet.append(f_s)
@@ -177,7 +177,7 @@ def get_movie_skelet(movie_path):
             video = os.path.join(video_path, idx+'.mp4')
             vidcap = cv2.VideoCapture(video)
             success, image = vidcap.read()
-            height, width = image.shape[1], image.shape[0]
+            width, height = image.shape[1], image.shape[0]
             skeleton = skeleton_processing(skeleton, height, width)
             if skeleton != None:
                 skeleton, st, ed = skeleton
