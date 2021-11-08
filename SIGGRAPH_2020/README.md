@@ -16,8 +16,6 @@ The homepage of the project can be found [here](https://jianghd1996.github.io/pu
 
 **To do list**
 
-- [ ] Usage
-
 - [ ] test scene
 
 
