@@ -56,8 +56,6 @@ For character features, we use character distance, relative head orientations, r
 
 ![Overview](https://github.com/jianghd1996/Camera-control/blob/master/SIGGRAPH_2020/Figure/feature.png)
 
-Use data_processing file to extract the character 2D screen joint positions and cinematic features.
-
 
 
 ## Pipeline
