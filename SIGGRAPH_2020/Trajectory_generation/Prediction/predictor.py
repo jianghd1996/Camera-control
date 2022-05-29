@@ -53,7 +53,6 @@ def extract_prediction_feature(skelet, actor, returnpose=False):
     skelet = skelet[()]
     frame = len(skelet['Head']) // 2
     Data = np.zeros((frame, 7 + 2), dtype="float32")
-    Camera = np.zeros((frame, 5), dtype="float32")
     pos = np.zeros((frame, 6), dtype="float32")
     idx = [2, 4]
     for i in range(frame):
@@ -84,63 +83,6 @@ def extract_prediction_feature(skelet, actor, returnpose=False):
 def data_load(data_path, actor, returnpose=False):
     skelet = extract_txt(data_path)
     return extract_prediction_feature(skelet['Skelet'], actor, returnpose)
-
-def extract_latent(style, shot, actor):
-    variaty = 11
-
-    style, p = style
-
-    alpha = dict()
-    alpha[(-75, 75)] = 1.0381
-    alpha[(-75, 25)] = 0.7072
-    alpha[(-50, 50)] = 0.7278
-    alpha[(-25, 75)] = 0.7072
-    alpha[(-50, 0)] = 0.3639
-    alpha[(0, 50)] = 0.3639
-
-    if style == "direct":
-        data_path = 'data/gt/direct_{}_actor{}'.format(shot, actor)
-        style_data, style_toric = data_load(data_path, actor, returncamera=True)
-        style_seq = np.concatenate((style_data, style_toric), axis=1)
-
-        # relative
-    elif style == "relative":
-        data_path = 'data/gt/relative_{}_actor{}'.format(shot, actor)
-        style_data, style_toric = data_load(data_path, actor, returncamera=True)
-        print(style_toric[0], style_toric[1])
-        style_seq = np.concatenate((style_data, style_toric), axis=1)
-
-        # relative
-    elif style == "side":
-        data_path = 'data/gt/direct_{}_actor{}'.format(shot, actor)
-
-        style_data, style_toric = data_load(data_path, actor, returncamera=True)
-        pA = int(round(style_toric[0][1] * 100))
-        pB = int(round(style_toric[0][0] * 100))
-        r = 2 * (mt.pi - alpha[(pA, pB)])
-        frame = len(style_data)
-        for i in range(frame):
-            if actor == 0:
-                style_toric[i][3] = r * (0.8 + (p - (variaty // 2)) * 0.02)
-            else:
-                style_toric[i][3] = r * (0.2 + (p - (variaty // 2)) * 0.02)
-        style_seq = np.concatenate((style_data, style_toric), axis=1)
-
-        # relative
-    elif style == "sin":
-        data_path = 'data/gt/direct_{}_actor{}'.format(shot, actor)
-
-        style_data, style_toric = data_load(data_path, actor, returncamera=True)
-        pA = int(round(style_toric[0][1] * 100))
-        pB = int(round(style_toric[0][0] * 100))
-        r = 2 * (mt.pi - alpha[(pA, pB)])
-        frame = len(style_data)
-        for i in range(frame):
-            style_toric[i][3] = r / 2.0 + (1 + p * 0.1) * mt.sin(2 * mt.pi * i / (100 + p * 20))
-        style_seq = np.concatenate((style_data, style_toric), axis=1)
-
-    global_input = torch.tensor(style_seq[:]).unsqueeze(0)
-    return model(global_input, 0).detach().cpu().numpy()
 
 def smooth(seq):
     seq = np.transpose(seq)
@@ -218,7 +160,7 @@ if __name__ == "__main__":
     control_weight = smooth(control_weight)
     pos = smooth(pos)
 
-    print('generate sequence')
+    ### generate camera sequence
     for i in tqdm(range(frame)):
         cw = torch.tensor(control_weight[i])
         local_skelet = np.zeros((120, 9), dtype="float32")
@@ -239,6 +181,7 @@ if __name__ == "__main__":
     if not os.path.exists('visual'):
         os.mkdir('visual')
 
+    ### visualization
     axis_label_font_size = 40
     legend_fontsize = 10
     title_fontsize = 35
@@ -258,29 +201,9 @@ if __name__ == "__main__":
         plt.title(param[i], fontsize=title_fontsize)
         p_result, = plt.plot(X, result_camera[i], color='green', linewidth=4)
 
-        '''
-        plt.legend([p_std, p_result],
-                   [
-                       "ground truth",
-                       "our result",
-                   ],
-                   loc="upper right",
-                   fontsize=legend_fontsize,
-                   )
-        '''
         plt.savefig('visual/' + param[i] + '.png')
 
-    '''
-    for i in range(num_experts):
-        fig = plt.figure(figsize=(12.5, 10))
-        plt.xlabel(x_label, fontsize=axis_label_font_size)
-        plt.ylabel(y_label, fontsize=axis_label_font_size)
-        plt.tick_params(labelsize=25)
-        plt.title('expert{}'.format(i), fontsize=title_fontsize)
-        p_result, = plt.plot(X, control_weight[i], color='green', linewidth=4)
-        plt.savefig('visual/' + 'expert{}'.format(i) + '.png')
-    '''
-
+    ### output
     output = ''
     for i in range(frame):
         for j in range(6):
