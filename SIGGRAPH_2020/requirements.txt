@@ -1,5 +1,5 @@
 matplotlib==3.2.1
-numpy==1.18.4
+numpy==1.22.0
 opencv-python==4.2.0.34
 Pillow==7.1.2
 scikit-learn==0.23.1
