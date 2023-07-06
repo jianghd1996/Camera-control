@@ -3,7 +3,7 @@ numpy==1.18.4
 opencv-python==4.2.0.34
 Pillow==7.1.2
 scikit-learn==0.23.1
-scipy==1.4.1
+scipy==1.10.0
 sklearn==0.0
 tensorboardX==2.0
 torch==1.2.0
